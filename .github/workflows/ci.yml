@@ -1,3 +1,4 @@
+
 name: Python CI/CD
 
 on:
@@ -13,7 +14,6 @@ on:
   workflow_dispatch:
     inputs:
       deploy_test:
-    container: python:3.11.10-slim
         description: "Run the manual test deployment"
         required: true
         type: boolean
@@ -28,9 +28,9 @@ env:
 
 jobs:
   validate:
-    container: python:3.11.10-slim
     name: Validate project
     runs-on: ubuntu-latest
+    container: python:3.11.10-slim
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,9 +49,9 @@ jobs:
         run: python -m compileall -q .
 
   unit_tests:
-    container: python:3.11.10-slim
     name: Unit tests
     runs-on: ubuntu-latest
+    container: python:3.11.10-slim
     if: |
       (github.event_name == 'pull_request') ||
       (github.ref == 'refs/heads/main')
@@ -63,9 +63,9 @@ jobs:
         run: python -m unittest discover -s tests -v
 
   package:
-    container: python:3.11.10-slim
     name: Build distribution artifact
     runs-on: ubuntu-latest
+    container: python:3.11.10-slim
     if: |
       (github.ref == 'refs/heads/main') ||
       (startsWith(github.ref, 'refs/tags/'))
@@ -131,8 +131,9 @@ jobs:
 
       - name: Run smoke checks
         run: |
+          python --version
           python books.py --help
-          python books.py --data dist/books.json.example search-author булгаков
+          python books.py --data books.json.example search-author "булгаков"
 
       - name: Save deployment report
         run: |
