@@ -19,7 +19,7 @@ def load_books(path=DEFAULT_DATA):
 
 def search_by_author(books, author):
     """Найти книги по автору; регистр букв не учитывается."""
-    query = author.strip().casefold()
+    query = author.strip()
     if not query:
         return []
     return [
